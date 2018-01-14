@@ -15,3 +15,9 @@ catch (e) {
 loadScripts(polyfillsNeeded, function() {
   new IndexController(document.querySelector('.main'));
 });
+
+self.addEventListener('message', ()=>{
+  if (event.data.dothing == 'nonsense'){
+    return self.skipWaiting();
+  }
+})
