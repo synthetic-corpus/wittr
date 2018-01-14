@@ -6,7 +6,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        '/',
+        '/skeleton',
         'js/main.js',
         'css/main.css',
         'imgs/icon.png',
@@ -38,7 +38,12 @@ self.addEventListener('fetch', function(event) {
 
   event.respondWith(
     caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
+      if (!response){
+        return fetch(event.request);
+      };
+      if (event.request.url.endsWith('/')){
+        return caches.match('/skeleton');
+      };
     })
   );
 });
