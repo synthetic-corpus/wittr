@@ -1,5 +1,6 @@
 var staticCacheName = 'wittr-static-v2';
 
+// would? If I would?!
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
