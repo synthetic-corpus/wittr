@@ -161,7 +161,6 @@ IndexController.prototype._onSocketMessage = function(data) {
       wittrStore.put(message);
     }); // Add each message to the wittrs thing.
 
-    return tx.complete;
   });
 
   this._postsView.addPosts(messages);
