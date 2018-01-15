@@ -75,7 +75,12 @@ IndexController.prototype._showCachedMessages = function() {
     // or the very first load, there's no point fetching
     // posts from IDB
     if (!db || indexController._postsView.showingPosts()) return;
+    var tx = db.transaction('wittrs');
+    var wittrsStore = tx.objectStore('wittrs').index('by-date');
 
+    return wittrsStore.getAll().then((messages)=>{
+      indexController._postsView.addPosts(messages);
+    })
     // TODO: get all of the wittr message objects from indexeddb,
     // then pass them to:
     // indexController._postsView.addPosts(messages)
