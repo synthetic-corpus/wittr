@@ -129,6 +129,17 @@ IndexController.prototype._openSocket = function() {
 // called when the web socket sends message data
 IndexController.prototype._onSocketMessage = function(data) {
   var messages = JSON.parse(data);
+  console.log(messages);
+  // messages is an array of objects:
+  /*
+    {
+      avatar: "A string path to whatever picture",
+      body: "The body of the message",
+      id: "A string and unique ID",
+      name: "The name of the post",
+      time: "The time, expressed as a string"
+    }
+  */
 
   this._dbPromise.then(function(db) {
     if (!db) return;
