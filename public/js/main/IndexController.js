@@ -9,6 +9,15 @@ function openDatabase() {
     return Promise.resolve();
   }
 
+  return idb.open('wittr', 1, (upgradeDB) => {
+    var wittrs = upgradeDB.createObjectStore('wittrs',
+    {
+      keyPath: 'id'
+    });
+    wittrs.createIndex('by-date','time')
+  })
+
+  // return dbPromise;
   // TODO: return a promise for a database called 'wittr'
   // that contains one objectStore: 'wittrs'
   // that uses 'id' as its key
@@ -146,6 +155,13 @@ IndexController.prototype._onSocketMessage = function(data) {
 
     // TODO: put each message into the 'wittrs'
     // object store.
+    var tx = db.transaction('wittrs','readwrite'); // Begin Trans
+    var wittrStore = tx.objectStore('wittrs'); // In trans, do wittrs!
+    messages.forEach((message) =>{
+      wittrStore.put(message);
+    }); // Add each message to the wittrs thing.
+
+    return tx.complete;
   });
 
   this._postsView.addPosts(messages);
