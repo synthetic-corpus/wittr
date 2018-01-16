@@ -161,9 +161,20 @@ IndexController.prototype._cleanImageCache = function() {
 
     // TODO: open the 'wittr' object store, get all the messages,
     // gather all the photo urls.
-    //
-    // Open the 'wittr-content-imgs' cache, and delete any entry
-    // that you no longer need.
+    db.transaction('wittrs').objectStore('wittrs').getAll()
+      .then((cache)=>{
+        let photoUrls =[];
+        cache.forEach((entry)=>{
+          if ( entry.photo ){
+            photoUrls.push(entry.photo);
+          }
+        })
+        return photoUrls;
+      })
+      .then((photoUrls)=>{
+        // Open the 'wittr-content-imgs' cache, and delete any entry
+        // that you no longer need.
+      })
   });
 };
 
