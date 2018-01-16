@@ -174,6 +174,17 @@ IndexController.prototype._cleanImageCache = function() {
       .then((photoUrls)=>{
         // Open the 'wittr-content-imgs' cache, and delete any entry
         // that you no longer need.
+        caches.open('wittr-content-imgs')
+          .then((cache)=>{
+            cache.keys().then((keys)=>{
+              keys.forEach((key)=>{
+                if (!photoUrls.includes(key)){
+                  cache.delete(key);
+                }
+              })
+            });
+            
+          });
       })
   });
 };
