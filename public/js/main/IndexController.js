@@ -159,10 +159,21 @@ IndexController.prototype._onSocketMessage = function(data) {
 
     var tx = db.transaction('wittrs', 'readwrite');
     var store = tx.objectStore('wittrs');
+    var storeDate = store.index('by-date');
     messages.forEach(function(message) {
       store.put(message);
     });
 
+    storeDate.getAll()
+      .then((array)=>{
+        var trash = array.slice(30);
+        trash.forEach((trash)=>{
+          store.delete(trash.id);
+          
+        })
+        ;
+      });
+  
     // TODO: keep the newest 30 entries in 'wittrs',
     // but delete the rest.
     //
