@@ -75,6 +75,7 @@ function servePhoto(request) {
       return fetch(request) // No reponse? Do a fetch from the network instead.
       .then((network)=>{ 
         cache.put(storageUrl, network.clone()); // After serving the image form the network, store in cache.
+        return network;
       })
     }
     )
