@@ -172,13 +172,15 @@ IndexController.prototype._cleanImageCache = function() {
         return photoUrls;
       })
       .then((photoUrls)=>{
+        console.log('Photo urls, ',photoUrls);
         // Open the 'wittr-content-imgs' cache, and delete any entry
         // that you no longer need.
         caches.open('wittr-content-imgs')
           .then((cache)=>{
             cache.keys().then((keys)=>{
               keys.forEach((key)=>{
-                if (!photoUrls.includes(key)){
+                let path = new URL(key.url);
+                if (!photoUrls.includes(path.pathname)){
                   cache.delete(key);
                 }
               })
